@@ -25,7 +25,7 @@ const todoList = () => {
     const toDisplayableList = (list) => {
         // Format the To-Do list here, and return the output string as per the format given above.
         const dueTodayItems = dueToday();
-        return list.map(item => "[" + (item.completed ? "x" : " ") + "] " + item.title + (!dueTodayItems.includes(item) ? ( " " + item.dueDate ) : "")).join("\n");
+        return list.map(item => `[${(item.completed ? "x" : " ")}] ${item.title} ${!dueTodayItems.includes(item) ? ( " " + item.dueDate ) : ""}`).join("\n");
     }
   
     return { all, add, markAsComplete, overdue, dueToday, dueLater, toDisplayableList };
