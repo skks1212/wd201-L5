@@ -1,22 +1,21 @@
-let todoList = require("../todo");
-
-const { all, markAsComplete, add, overdue, dueToday, dueLater } = todoList();
+const db = require("../models");
 /* eslint-disable no-undef */
 describe("Todo List Test Suite", () => {
-  beforeAll(() => {
-    add({ title: "Buy milk", dueDate: "2020-12-31", completed: false });
+  beforeAll(async () => {
+    await db.sequelize.sync({ force: true });
   });
 
-  test("Create a new Todo", () => {
-    expect(all.length).toEqual(1);
-    add({
-      title: "A test item",
+  test("Create a new Todo", async () => {
+    const todoItemsCount = await db.Todo.count();
+    await db.Todo.addTask({
+      title: "Test todo",
       completed: false,
-      dueDate: new Date().toLocaleDateString("en-CA"),
+      dueDate: new Date(),
     });
-
-    expect(all.length).toEqual(2);
+    const newTodoItemsCount = await db.Todo.count();
+    expect(newTodoItemsCount).toBe(todoItemsCount + 1);
   });
+  /*
   test("Should mark a Todo as complete", () => {
     expect(all.length).toEqual(2);
     expect(all[0].completed).toEqual(false);
@@ -65,4 +64,5 @@ describe("Todo List Test Suite", () => {
     dueLaterItems = dueLater();
     expect(dueLaterItems.length).toEqual(1);
   });
+  */
 });
