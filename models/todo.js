@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       console.log("Due Today");
       const itemsDueToday = await Todo.dueToday();
       const formattedItemsDueToday = itemsDueToday
-        .map((todo) => todo.displayableString())
+        .map((todo) => todo.displayableString(false))
         .join("\n");
       console.log(formattedItemsDueToday);
       console.log("\n\n");
@@ -33,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
       console.log("Due Later");
       const itemsDueLater = await Todo.dueLater();
       const formattedItemsDueLater = itemsDueLater
-        .map((todo) => todo.displayableString(true))
+        .map((todo) => todo.displayableString())
         .join("\n");
       console.log(formattedItemsDueLater);
     }
@@ -82,7 +82,7 @@ module.exports = (sequelize, DataTypes) => {
       );
     }
 
-    displayableString(displayDate = false) {
+    displayableString(displayDate = true) {
       let checkbox = this.completed ? "[x]" : "[ ]";
       return `${this.id}. ${checkbox} ${this.title}${displayDate ? " " + this.dueDate : ""}`;
     }
